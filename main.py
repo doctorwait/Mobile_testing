@@ -1,6 +1,7 @@
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 
+
 # Using app: https://play.google.com/store/apps/details?id=com.ambertech.amber
 # Start server command:
 # appium server -p 9000 -a 127.0.0.1 -pa /wd/hub
@@ -8,7 +9,8 @@ from appium.webdriver.common.appiumby import AppiumBy
 
 class TestLoginRegisterForm:
     session = 'http://127.0.0.1:9000/wd/hub'
-    capabilities = {"platformName": "android", "appium:automationName": "uiautomator2", "appium:deviceName": "4a97c487"}
+    capabilities = {"platformName": "android", "appium:automationName": "uiautomator2", "appium:deviceName": "4a97c487",
+                    'unicodeKeyboard': 'true', 'resetKeyboard': 'true'}
 
     def setup(self) -> None:
         self.driver = webdriver.Remote(self.session, self.capabilities)
@@ -19,7 +21,7 @@ class TestLoginRegisterForm:
 
     def test_get_started(self) -> None:
         """ Testing full circle of Get Started process at first running app. """
-
+        '''
         # Press "get started" button
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="get started"]').click()
         # Get the countries list
@@ -32,13 +34,8 @@ class TestLoginRegisterForm:
         # Press 'continue" button
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="continue"]').click()
         self.driver.implicitly_wait(10)
-        # Choose the language (at this moment I don't know how to click it correctly)
-        # self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="🇺🇸 english"]')
-        # self.driver.implicitly_wait(10)
-        # eng_lang = self.driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
-        #                                     value='//android.view.View[@content-desc="🇺🇸 english"]')
-        # eng_lang.click()
-
-
-
+        '''
+        # Choose the language
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value='''🇮🇳
+हिन्दी''').click()
 

@@ -10,7 +10,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 class TestLoginRegisterForm:
     session = 'http://127.0.0.1:9000/wd/hub'
     capabilities = {"platformName": "android", "appium:automationName": "uiautomator2", "appium:deviceName": "4a97c487",
-                    'unicodeKeyboard': 'true', 'resetKeyboard': 'true'}
+                    } # 'unicodeKeyboard': 'true', 'resetKeyboard': 'true'
 
     def setup(self) -> None:
         self.driver = webdriver.Remote(self.session, self.capabilities)
@@ -20,8 +20,13 @@ class TestLoginRegisterForm:
             self.driver.quit()
 
     def test_get_started(self) -> None:
-        """ Testing full circle of Get Started process at first running app. """
-        '''
+        """
+        Testing full circle of Get Started process at first running app.
+        Result: the phone registration window. There is choosing in window: enter phone or sign up with Apple / Google.
+        """
+        def click_continue_button():
+            self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value='continue').click()
+
         # Press "get started" button
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="get started"]').click()
         # Get the countries list
@@ -30,12 +35,18 @@ class TestLoginRegisterForm:
         # Search current country
         self.driver.find_element(by=AppiumBy.CLASS_NAME, value='android.widget.EditText').click()
         self.driver.find_element(by=AppiumBy.CLASS_NAME, value='android.widget.EditText').send_keys('Georgia')
-        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value='Georgia').click()
-        # Press 'continue" button
+        self.driver.implicitly_wait(10)
+        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageView[@content-desc="Georgia"]').click()
+        self.driver.implicitly_wait(10)
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="continue"]').click()
         self.driver.implicitly_wait(10)
-        '''
-        # Choose the language
-        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value='''🇮🇳
-हिन्दी''').click()
+        # Choose the language (don't change the locator string!)
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="""🇺🇸
+english""").click()
+        click_continue_button()
+        # Choose age
+        self.driver.find_element(by=AppiumBy.CLASS_NAME, value='android.widget.EditText').click()
+        self.driver.find_element(by=AppiumBy.CLASS_NAME, value='android.widget.EditText').send_keys('28')
+        click_continue_button()
+
 
